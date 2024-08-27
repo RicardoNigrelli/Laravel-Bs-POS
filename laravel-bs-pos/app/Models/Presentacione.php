@@ -13,7 +13,7 @@ class Presentacione extends Model
         return $this->hasMany(Producto::class);
     }
 
-     public function característica () {
-        return $this->belongsTo(Característica::class);
+     public function caracteristica () {
+        return $this->belongsTo(Caracteristica::class);
     }
 }

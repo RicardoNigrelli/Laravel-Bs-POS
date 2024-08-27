@@ -13,7 +13,7 @@ class Categoria extends Model
         return $this->belongsToMany(Producto::class)->withTimestamps();
     }
 
-     public function característica () {
-        return $this->belongsTo(Característica::class);
+     public function caracteristica () {
+        return $this->belongsTo(Caracteristica::class);
     }
 }

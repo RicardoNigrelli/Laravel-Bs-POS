@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('marcas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('característica_id')->constrained('características')->onDelete('cascade');
+            $table->foreignId('caracteristica_id')->constrained('caracteristicas')->onDelete('cascade');
             $table->timestamps();
         });
     }
