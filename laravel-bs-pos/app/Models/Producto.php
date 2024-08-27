@@ -17,8 +17,8 @@ class Producto extends Model
         return $this->belongsToMany(Venta::class)->withTimestamps()->withPivot('cantidad', 'precio_venta', 'descuento');
     }
 
-    public function categorías () {
-        return $this->belongsToMany(Categoría::class)->withTimestamps();
+    public function categorias () {
+        return $this->belongsToMany(Categoria::class)->withTimestamps();
     }
 
     public function marca () {
