@@ -11,7 +11,7 @@ class UpdateMarcasRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -20,9 +20,12 @@ class UpdateMarcasRequest extends FormRequest
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
     public function rules(): array
-    {
+    {   
+        $marca = $this->route('marca');
+        $marcaId = $marca->caracteristica->id;
         return [
-            //
+            'nombre' => 'required|max:60|unique:caracteristicas,nombre,' . $marcaId,
+            'descripcion' => 'nullable|max:255'
         ];
     }
 }

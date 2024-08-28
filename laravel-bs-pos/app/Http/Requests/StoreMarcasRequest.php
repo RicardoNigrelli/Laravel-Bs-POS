@@ -11,7 +11,7 @@ class StoreMarcasRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,8 @@ class StoreMarcasRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'nombre' => 'required|max:60|unique:caracteristicas,nombre',
+            'descripcion' => 'nullable|max:255'
         ];
     }
 }
