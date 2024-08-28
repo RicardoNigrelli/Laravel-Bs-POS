@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCategoriaRequest;
+use App\Http\Requests\UpdateCategoriaRequest;
 use App\Models\Caracteristica;
+use App\Models\Categoria;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,7 +17,9 @@ class CategoriaController extends Controller
      */
     public function index()
     {
-        return view ('categoria.index');
+        $categorias = Categoria::with('caracteristica')->get();
+
+        return view ('categoria.index', ['categorias' => $categorias]);
     }
 
     /**
@@ -57,17 +61,20 @@ class CategoriaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Categoria $categoria)
     {
-        //
+        return view('categoria.edit', ['categoria'=>$categoria]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateCategoriaRequest $request, Categoria $categoria)
     {
-        //
+        Caracteristica::where('id',$categoria->caracteristica->id)
+        ->update($request->validated());
+
+        return redirect()->route('categorias.index')->with('success', 'Categoría Actualizada');
     }
 
     /**
