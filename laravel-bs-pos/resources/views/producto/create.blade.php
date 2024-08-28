@@ -25,7 +25,7 @@
                         </ol>
 
                         <div class="container w-100 border border-3 border-primary rounded p-4 mt-3">
-                            <form action="{{route('productos.store')}}" method="post">
+                            <form action="{{route('productos.store')}}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <div class="row g-3">
                                     <div class="col-md-6">
@@ -69,7 +69,7 @@
                                             <option value="" disabled selected>Sin marca seleccionada</option>
 
                                             @foreach ($marcas as $item)
-                                                <option value="{{$item->id}}">{{$item->caracteristica->nombre}}</option>
+                                                    <option value="{{$item->id}}" {{ old('marca_id') == $item->id ? 'selected' : '' }}>{{$item->nombre}}</option>
                                             @endforeach
                                         </select>
                                         @error('marca_id')
@@ -81,7 +81,7 @@
                                         <select name="presentacione_id" id="presentacione_id" class="form-control">
                                             <option value="" disabled selected>Sin presentación seleccionada</option>
                                             @foreach ($presentaciones as $item)
-                                                <option value="{{ $item->id }}">{{ $item->caracteristica->nombre }}</option>
+                                                    <option value="{{$item->id}}" {{ old('presentacione_id') == $item->id ? 'selected' : '' }}>{{$item->nombre}}</option>
                                             @endforeach
                                         </select>
                                         @error('presentacione_id')
@@ -96,7 +96,7 @@
                                                     <input class="form-check-input" type="checkbox" name="categorias[]" id="categoria{{ $item->id }}" value="{{ $item->id }}"
                                                         @if(in_array($item->id, old('categorias', $selectedCategorias ?? []))) checked @endif>
                                                     <label class="form-check-label" for="categoria{{ $item->id }}">
-                                                        {{ $item->caracteristica->nombre }}
+                                                        {{ $item->nombre }}
                                                     </label>
                                                 </div>
                                             @endforeach
