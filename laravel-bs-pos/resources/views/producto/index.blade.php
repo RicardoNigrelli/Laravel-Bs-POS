@@ -120,7 +120,7 @@ Toast.fire({
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                {{ $item->estado == 1 ? "¿Desea eliminar el producto {$item->nombre}?" : "¿Desea restaurar la producto {$producto->caracteristica->nombre}?" }}
+                                                {{ $item->estado == 1 ? "¿Desea eliminar el producto {$item->nombre}?" : "¿Desea restaurar la producto {$item->nombre}?" }}
                                                 
                                             </div>
                                             <div class="modal-footer">
