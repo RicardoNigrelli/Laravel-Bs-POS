@@ -25,8 +25,9 @@
                         </ol>
 
                         <div class="container w-100 border border-3 border-primary rounded p-4 mt-3">
-                            <form action="{{route('productos.store')}}" method="post" enctype="multipart/form-data">
-                                @csrf
+                            <form action="{{route('productos.update', ['producto' => $producto])}}" method="post" enctype="multipart/form-data">
+                            @method('PATCH')    
+                            @csrf
                                 <div class="row g-3">
                                     <div class="col-md-6">
                                         <label for="codigo" class="form-label">Código:</label>
@@ -118,6 +119,8 @@
 
                                     <div class="col-12 text-center">
                                         <button type="submit" class="btn btn-primary">Guardar</button>
+                                        <button type="reset" class="btn btn-secondary">Reiniciar</button>
+
                                     </div>
                                 </div>
                             </form>
