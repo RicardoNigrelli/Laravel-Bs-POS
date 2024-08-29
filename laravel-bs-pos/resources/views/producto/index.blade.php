@@ -102,7 +102,9 @@ Toast.fire({
                                                 <div class="btn-group" role="group" aria-label="Basic mixed styles example">
                                                 @if ($item->estado == 1)                                                
                                                 <button type="button" class="btn btn-danger" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmModal-{{$item->id}}">Eliminar</button>
-                                                <button type="button" class="btn btn-warning" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#confirmModal-{{$item->id}}">Editar</button>
+                                                <form action="{{route('productos.edit', ['producto' => $item])}}">
+                                                    <button type="submit" class="btn btn-warning" class="btn btn-warning">Editar</button>
+                                                </form>
                                                 <button type="button" class="btn btn-success" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#verModal-{{$item->id}}">Ver</button>
                                                 @else
                                                 <button type="button" class="btn btn-success" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmModal-{{$item->id}}">Restaurar</button>
