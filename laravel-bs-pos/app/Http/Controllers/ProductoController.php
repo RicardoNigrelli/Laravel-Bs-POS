@@ -17,8 +17,9 @@ class ProductoController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        return view('producto.index');
+    {   
+        $productos = Producto::with(['marca.caracteristica', 'categorias.caracteristica', 'presentacione.caracteristica'])->latest()->get();
+        return view('producto.index', compact('productos'));
     }
 
     /**

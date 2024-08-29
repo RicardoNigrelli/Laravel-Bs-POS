@@ -51,24 +51,48 @@ Toast.fire({
                                 <table id="datatablesSimple" class="table table-striped">
                                     <thead>
                                         <tr>
+                                            <th>Código</th>
                                             <th>Nombre</th>
                                             <th>Descripcion</th>
+                                            <th>Marca</th>
+                                            <th>Presentacion</th>
+                                            <th>Categorias</th>
                                             <th>Estado</th>
                                             <th>Acciones</th>
                                         </tr>
                                     </thead>
                                 <tbody>
-                                    @foreach($productos as $producto)
+                                    @foreach($productos as $item)
                                     
                                         <tr>
                                             <td>
-                                                {{$producto->caracteristica->nombre}}
+                                                {{$item->codigo}}
                                             </td>
                                             <td>
-                                                {{$producto->caracteristica->descripcion}}
+                                                {{$item->nombre}}
                                             </td>
                                             <td>
-                                                @if ($producto->caracteristica->estado == 1)                                                
+                                                {{$item->descripcion}}
+                                            </td>
+                                            <td>
+                                                {{$item->marca->caracteristica->nombre}}
+                                            </td>
+                                            <td>
+                                                {{$item->presentacione->caracteristica->nombre}}
+                                            </td>
+                                            <td>
+                                                @foreach ($item->categorias as $categoria)
+                                                <div class="div-container">
+                                                    <div class="row">
+                                                        <span class="m-1 rounded-pill w-75 text-xs bg-secondary text-white text-center">
+                                                            {{$categoria->caracteristica->nombre}}
+                                                        </span>    
+                                                    </div>
+                                                </div>
+                                                @endforeach
+                                            </td>
+                                            <td>
+                                                @if ($item->estado == 1)                                                
                                                     <span class="fw-bolder rounded bg-success text-white p-1">Activo</span>
                                                 @else
                                                     <span class="fw-bolder rounded bg-danger text-white p-1">Eliminado</span>
@@ -76,18 +100,17 @@ Toast.fire({
                                             </td>
                                             <td>
                                                 <div class="btn-group" role="group" aria-label="Basic mixed styles example">
-                                                <form action="{{route ('productos.edit',['producto' => $producto] )}}" method="get">
-                                                    <button type="submit" class="btn btn-warning">Editar</button>
-                                                </form>
-                                                @if ($producto->caracteristica->estado == 1)                                                
-                                                <button type="button" class="btn btn-danger" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmModal-{{$producto->id}}">>Eliminar</button>
+                                                @if ($item->estado == 1)                                                
+                                                <button type="button" class="btn btn-danger" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmModal-{{$item->id}}">Eliminar</button>
+                                                <button type="button" class="btn btn-warning" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#confirmModal-{{$item->id}}">Editar</button>
+                                                <button type="button" class="btn btn-success" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#verModal-{{$item->id}}">Ver</button>
                                                 @else
-                                                <button type="button" class="btn btn-success" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmModal-{{$producto->id}}">>Restaurar</button>
+                                                <button type="button" class="btn btn-success" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#confirmModal-{{$item->id}}">Restaurar</button>
                                                 @endif
                                                 </div>
                                             </td>
                                         </tr>
-                                        <div class="modal fade" id="confirmModal-{{$producto->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal fade" id="confirmModal-{{$item->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog">
                                             <div class="modal-content">
                                             <div class="modal-header">
@@ -95,20 +118,62 @@ Toast.fire({
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
-                                                {{ $producto->caracteristica->estado == 1 ? "¿Desea eliminar el producto {$producto->caracteristica->nombre}?" : "¿Desea restaurar la producto {$producto->caracteristica->nombre}?" }}
+                                                {{ $item->estado == 1 ? "¿Desea eliminar el producto {$item->nombre}?" : "¿Desea restaurar la producto {$producto->caracteristica->nombre}?" }}
                                                 
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                                <form action="{{route('productos.destroy', ['producto'=>$producto->id])}}" method="post">
+                                                <form action="{{route('productos.destroy', ['producto'=>$item->id])}}" method="post">
                                                     @method('DELETE')
                                                     @csrf
-                                                    @if ($producto->caracteristica->estado == 1)                                                
+                                                    @if ($item->estado == 1)                                                
                                                     <button type="submit" class="btn btn-danger">Eliminar</button>
                                                 @else
                                                     <button type="submit" class="btn btn-success">Restaurar</button>
                                                 @endif
                                                 </form>
+                                            </div>
+                                            </div>
+                                        </div>
+                                        </div>
+
+                                    <div class="modal fade" id="verModal-{{$item->id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-scrollable">
+                                            <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Detalles de Producto</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row mb-3">
+                                                    <label for="">
+                                                        <span class="fw-bolder"> Descripción: </span> {{$item->descripcion}}
+                                                    </label>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <label for="">
+                                                        <span class="fw-bolder"> Fecha de vencimiento: </span> {{$item->fecha_vencimiento=='' ? 'No tiene' : $item->fecha_vencimiento}}
+                                                    </label>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <label for="">
+                                                        <span class="fw-bolder"> Stock: </span> {{$item->stock=='' ? 'No tiene' : $item->stock}}
+                                                    </label>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <label for="">
+                                                        <div>
+                                                            @if ($item->img_path != null)
+                                                            <img src="{{Storage::url('public/productos/'.$item->img_path)}}" alt="{{$item->nombre}}" class="img-fluid img-thumbnail border-4 rounded" >
+                                                            @else
+                                                            <img src="" alt="{{$item->nombre}}">
+                                                            @endif
+                                                        </div>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                                             </div>
                                             </div>
                                         </div>
